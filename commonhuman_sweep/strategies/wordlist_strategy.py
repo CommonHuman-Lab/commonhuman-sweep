@@ -117,18 +117,14 @@ class WordlistStrategy(BaseStrategy):
                     )
 
     # ------------------------------------------------------------------
-    # Wordlist loading with adaptive ranking
+    # Wordlist loading (delegates to commonhuman-cli shared utility)
     # ------------------------------------------------------------------
 
     def _load_wordlist(self, path: str) -> list[str] | None:
         if not path:
             return None
         try:
-            with open(path) as fh:
-                lines = [ln.rstrip("\n") for ln in fh if ln.strip() and not ln.startswith("#")]
-            # Adaptive pre-ranking: short entries first (faster signal acquisition),
-            # then longer entries. This surfaces common endpoints early.
-            lines.sort(key=lambda x: (len(x), x))
-            return lines
-        except OSError:
+            from commonhuman_cli.entrypoint import load_wordlist
+            return load_wordlist(path, sort_by_length=True)
+        except SystemExit:
             return None

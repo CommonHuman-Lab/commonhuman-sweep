@@ -29,6 +29,7 @@ classifiers = [
 ]
 dependencies = [
   "commonhuman-core",
+  "commonhuman-cli",
   "httpx[http2]>=0.27",
 ]
 
