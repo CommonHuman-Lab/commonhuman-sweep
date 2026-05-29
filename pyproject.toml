@@ -1,0 +1,69 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (c) 2026 CommonHuman-Lab
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "commonhuman-sweep"
+version = "0.1.0"
+description = "Shared surface exploration and request mutation library for the CommonHuman-Lab scanner tools"
+readme = "README.md"
+license = { text = "AGPL-3.0-or-later" }
+requires-python = ">=3.11"
+authors = [
+  { name = "CommonHuman-Lab" },
+]
+keywords = ["security", "fuzzing", "recon", "pentest", "bugbounty", "api", "mutation"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Information Technology",
+  "License :: OSI Approved :: GNU Affero General Public License v3",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Security",
+]
+dependencies = [
+  "commonhuman-core",
+  "httpx[http2]>=0.27",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "pytest-asyncio>=0.23",
+  "pytest-mock>=3.0",
+  "mypy>=1.0",
+  "ruff>=0.4",
+]
+
+[project.urls]
+Homepage = "https://github.com/commonhuman-lab/commonhuman-sweep"
+Issues   = "https://github.com/commonhuman-lab/commonhuman-sweep/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["commonhuman_sweep"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+addopts = "-v --tb=short"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = false
+ignore_missing_imports = true
+warn_return_any = true
+warn_unused_ignores = true
