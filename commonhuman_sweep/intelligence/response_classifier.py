@@ -36,7 +36,6 @@ _ERROR_PATTERNS: list[tuple[re.Pattern, Signal]] = [
 _INTERESTING_HEADERS: dict[str, Signal] = {
     "x-debug-token":    Signal.DEBUG_INFO_LEAKED,
     "x-debug-token-link": Signal.DEBUG_INFO_LEAKED,
-    "server":           Signal.API_SCHEMA_EXPOSED,
     "x-powered-by":     Signal.DEBUG_INFO_LEAKED,
 }
 

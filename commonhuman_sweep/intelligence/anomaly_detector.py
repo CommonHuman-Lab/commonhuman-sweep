@@ -113,13 +113,11 @@ class AnomalyDetector:
             return 0.0   # no baseline — cannot judge
 
         score = 0.0
-        weight_sum = 0.0
 
         # Status code deviation (high weight)
         if response.status != bucket.dominant_status():
             status_score = self._status_score(response.status, bucket.dominant_status())
             score       += 0.40 * status_score
-        weight_sum += 0.40
 
         # Length deviation (medium weight — use z-score capped at 3σ)
         if bucket.lengths:
@@ -128,22 +126,19 @@ class AnomalyDetector:
             if std > 0:
                 z = abs(response.length - mean) / std
                 score += 0.30 * min(z / 3.0, 1.0)
-        weight_sum += 0.30
 
         # Fingerprint deviation (medium weight)
         dom_fp = bucket.dominant_fingerprint()
         if dom_fp and response.fingerprint != dom_fp:
             score += 0.20
-        weight_sum += 0.20
 
         # Timing anomaly (low weight — slow response = possible time-based SQLi)
         if bucket.times:
             mean_t = bucket.mean_time()
             if mean_t > 0 and response.elapsed_ms > mean_t * 5:
                 score += 0.10
-        weight_sum += 0.10
 
-        return round(score / weight_sum * weight_sum, 4)  # normalised
+        return round(score, 4)
 
     def is_anomalous(self, url: str, response: SweepResponse, threshold: float = 0.35) -> bool:
         return self.score(url, response) >= threshold

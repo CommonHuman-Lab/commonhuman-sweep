@@ -133,6 +133,12 @@ class TestSignalExtraction:
         cls = self.clf.classify(_req(), resp)
         assert Signal.API_SCHEMA_EXPOSED in cls.signals
 
+    def test_server_header_alone_is_not_schema_exposed(self):
+        resp = _resp(404, "Not Found", ct="text/plain")
+        resp.headers["server"] = "nginx/1.18.0"
+        cls = self.clf.classify(_req(), resp)
+        assert Signal.API_SCHEMA_EXPOSED not in cls.signals
+
 
 class TestConfidenceScoring:
     clf = ResponseClassifier()

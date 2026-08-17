@@ -40,7 +40,7 @@ class ExecutionLayer:
             timeout=httpx.Timeout(opts.timeout),
             verify=opts.verify_ssl,
             follow_redirects=opts.follow_redirects,
-            proxies=opts.proxy or None,
+            proxy=opts.proxy or None,
             headers=self._ctx.base_headers(),
             http2=True,
         )
