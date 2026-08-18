@@ -132,4 +132,7 @@ The `_block_real_http` autouse fixture patches `httpx.AsyncClient.send` for ever
 
 ## License
 
-AGPL-3.0-or-later © CommonHuman-Lab
+Licensed under the [AGPLv3](LICENSE).
+You are free to use, modify, and distribute this software. If you run it as a service or distribute it, the source must remain open.
+
+For commercial licensing, contact the author.
